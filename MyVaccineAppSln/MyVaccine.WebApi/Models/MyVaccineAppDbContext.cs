@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection.PortableExecutable;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Reflection.PortableExecutable; 
 
 namespace MyVaccine.WebApi.Models;
 
-public class MyVaccineAppDbContext : DbContext
+public class MyVaccineAppDbContext : IdentityDbContext<IdentityUser>
 {
     public MyVaccineAppDbContext(DbContextOptions<MyVaccineAppDbContext> options) : base(options)
     {
@@ -19,20 +21,19 @@ public class MyVaccineAppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.Property(u => u.UserName)
-                .IsRequired()
-                .HasMaxLength(255);
+        base.OnModelCreating(modelBuilder);
 
-            entity.Property(u => u.Email)
-                .IsRequired()
-                .HasMaxLength(255);
+        //modelBuilder.Entity<IdentityUser>()
+        //   .HasKey(u => u.Id);
 
-            entity.Property(u => u.Password)
-                .IsRequired()
-                .HasMaxLength(255);
-        });
+        //modelBuilder.Entity<IdentityRole>()
+        //    .HasKey(r => r.Id);
+
+        //modelBuilder.Entity<IdentityUserRole<string>>()
+        //    .HasKey(r => new { r.UserId, r.RoleId });
+
+        //modelBuilder.Entity<IdentityUserLogin<string>>()
+        //    .HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
         modelBuilder.Entity<Dependent>(entity =>
         {

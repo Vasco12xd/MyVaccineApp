@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using MyVaccine.WebApi.Configurations;
 using MyVaccine.WebApi.Models;
+using MyVaccine.WebApi.Literals;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<MyVaccineAppDbContext>(options =>
-    options.UseSqlServer("Server=localhost,14330;Database=MyVaccineAppDb;User Id=sa;Password=Abc.123456;TrustServerCertificate=True;"/*Environment.GetEnvironmentVariable("MyVaccineDbConnectionString"))*/));
+builder.Services.SetDatabaseConfiguration();
+builder.Services.SetMyVaccineAuthConfiguration();
 
 var app = builder.Build();
 
@@ -24,6 +26,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
