@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="MyVaccine.WebApi/MyVaccine.WebApi.csproj" />
+  <Project Path="ReverseEngineering/ReverseEngineering.csproj" Id="2a042dde-e4b6-4b90-922a-b19a0bc3befc" />
 </Solution>
