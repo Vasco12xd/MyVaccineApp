@@ -35,6 +35,13 @@ public class DependentsController : ControllerBase
         return Ok(dependents);
     }
 
+    [HttpPost("get-dependent-by-userid/{userId}")]
+    public async Task<IActionResult> GetDependentsByUserID(int userId)
+    {
+        var dependents = await _dependentService.GetDependentsByUserID(userId);
+        return Ok(dependents);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(DependentRequestDto dependentsDto)
     {
@@ -53,38 +60,28 @@ public class DependentsController : ControllerBase
     //    return CreatedAtAction(nameof(GetById), new { id = dependent.Id }, dependent);
     //}
 
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> Update(int id, DependentsDto dependentsDto)
-    //{
-    //    var validationResult = await _validator.ValidateAsync(dependentsDto);
-    //    if (!validationResult.IsValid)
-    //    {
-    //        return BadRequest(validationResult.Errors);
-    //    }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, DependentRequestDto dependentsDto)
+    {
 
-    //    var dependent = _dependentRepository.GetAll().FirstOrDefault(d => d.Id == id);
-    //    if (dependent == null)
-    //    {
-    //        return NotFound();
-    //    }
+        var dependent = await _dependentService.Update(dependentsDto, id);
+        if (dependent == null)
+        {
+            return NotFound();
+        }
 
-    //    _mapper.Map(dependentsDto, dependent);
-    //    await _dependentRepository.Update(dependent);
+        return Ok(dependent);
+    }
 
-    //    return NoContent();
-    //}
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var dependent = await _dependentService.Delete(id);
+        if (dependent == null)
+        {
+            return NotFound();
+        }
 
-    //[HttpDelete("{id}")]
-    //public async Task<IActionResult> Delete(int id)
-    //{
-    //    var dependent = _dependentRepository.GetAll().FirstOrDefault(d => d.Id == id);
-    //    if (dependent == null)
-    //    {
-    //        return NotFound();
-    //    }
-
-    //    await _dependentRepository.Delete(dependent);
-
-    //    return NoContent();
-    //}
+        return Ok(dependent);
+    }
 }

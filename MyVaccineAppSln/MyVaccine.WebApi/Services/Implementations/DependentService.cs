@@ -5,6 +5,7 @@ using MyVaccine.WebApi.Dtos.Dependent;
 using MyVaccine.WebApi.Models;
 using MyVaccine.WebApi.Repositories.Contracts;
 using MyVaccine.WebApi.Services.Contracts;
+using System.Collections;
 
 namespace MyVaccine.WebApi.Services.Implementations;
 
@@ -50,6 +51,13 @@ public class DependentService : IDependentService
     {
         var dependents = await _dependentRepository.FindByAsNoTracking(x => x.DependentId == id).FirstOrDefaultAsync();
         var response = _mapper.Map<DependentResponseDto>(dependents);
+        return response;
+    }
+
+    public async Task<IEnumerable<DependentResponseDto>> GetDependentsByUserID(int userId)
+    {
+        var dependents = await _dependentRepository.FindByAsNoTracking(x => x.UserId == userId).ToListAsync();
+        var response = _mapper.Map<IEnumerable< DependentResponseDto>>(dependents);
         return response;
     }
 
