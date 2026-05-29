@@ -40,6 +40,12 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
 
     public async Task Delete(T entity)
     {
+        if (entity == null)
+        {
+            System.Diagnostics.Debug.WriteLine($"{typeof(T).Name} - operación Delete ignorada: entidad nula.");
+            return;
+        }
+
         _context.Remove(entity);
         await _context.SaveChangesAsync();
     }
